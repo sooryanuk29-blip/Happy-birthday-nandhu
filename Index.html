@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Birthday Surprise for Nandhana! 🎉</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Comic Sans MS', cursive;
+    background:linear-gradient(135deg,#ffe6f2,#ffe0ec,#fff0f7);
+    overflow:hidden;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+/* Floating Hearts */
+
+.heart-container{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.heart{
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:pink;
+    transform:rotate(-45deg);
+    animation:float 10s linear infinite;
+    opacity:.7;
+}
+
+.heart::before,
+.heart::after{
+    content:'';
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:pink;
+    border-radius:50%;
+}
+
+.heart::before{
+    top:-10px;
+    left:0;
+}
+
+.heart::after{
+    left:10px;
+    top:0;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(100vh) rotate(-45deg);
+        opacity:0;
+    }
+
+    20%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:translateY(-120vh) rotate(-45deg);
+        opacity:0;
+    }
+}
+
+/* Steps */
+
+.step{
+    position:absolute;
+    width:90%;
+    max-width:650px;
+    background:rgba(255,255,255,.92);
+    backdrop-filter:blur(12px);
+    padding:40px 25px;
+    border-radius:30px;
+    box-shadow:0 10px 35px rgba(0,0,0,.15);
+
+    opacity:0;
+    transform:scale(.9);
+    pointer-events:none;
+
+    transition:.6s;
+}
+
+.step.active{
+    opacity:1;
+    transform:scale(1);
+    pointer-events:auto;
+}
+
+h1,h2{
+    color:#ff1493;
+    margin-bottom:15px;
+}
+
+p{
+    color:#6a0dad;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+/* Button */
+
+button{
+    border:none;
+    background:#ff4fa3;
+    color:white;
+    padding:14px 28px;
+    border-radius:50px;
+    font-size:1rem;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 8px 20px rgba(255,79,163,.4);
+}
+
+button:hover{
+    transform:translateY(-3px);
+    background:#ff1493;
+}
+
+/* Mascot */
+
+#mascot{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:rgba(255,255,255,.92);
+    padding:12px 15px;
+    border-radius:20px;
+    max-width:320px;
+    box-shadow:0 10px 20px rgba(0,0,0,.12);
+    z-index:999;
+}
+
+#mascot img{
+    width:60px;
+}
+
+#mascot-message{
+    font-size:.95rem;
+    text-align:left;
+    color:#6a0dad;
+    font-weight:bold;
+}
+
+/* Balloons */
+
+.balloon-container{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:25px;
+    margin-top:35px;
+}
+
+.balloon{
+    width:90px;
+    height:120px;
+    border-radius:50%;
+    position:relative;
+    cursor:pointer;
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:2rem;
+}
+
+.balloon:hover{
+    transform:translateY(-10px);
+}
+
+.balloon::after{
+    content:'';
+    position:absolute;
+    width:3px;
+    height:60px;
+    background:#555;
+    bottom:-60px;
+    left:50%;
+}
+
+.popped{
+    animation:pop .4s forwards;
+}
+
+@keyframes pop{
+    to{
+        transform:scale(0);
+        opacity:0;
+    }
+}
+
+/* Drag Gift */
+
+.gift{
+    font-size:5rem;
+    cursor:grab;
+    margin-bottom:30px;
+}
+
+.drag-box{
+    width:220px;
+    height:180px;
+    border:4px dashed hotpink;
+    margin:auto;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#ff1493;
+    font-size:1.3rem;
+}
+
+/* Textarea */
+
+textarea{
+    width:90%;
+    height:120px;
+    border-radius:20px;
+    border:2px solid hotpink;
+    padding:15px;
+    resize:none;
+    font-size:1rem;
+    outline:none;
+}
+
+/* Candles */
+
+.candle-container{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:40px;
+}
+
+.candle{
+    width:40px;
+    height:90px;
+    border-radius:12px;
+    background:linear-gradient(#ff9ed2,#8b5cf6);
+    position:relative;
+    cursor:pointer;
+}
+
+.flame{
+    position:absolute;
+    width:22px;
+    height:30px;
+    background:orange;
+    border-radius:50%;
+    left:50%;
+    top:-30px;
+    transform:translateX(-50%);
+    opacity:.25;
+}
+
+.flame.lit{
+    opacity:1;
+    animation:flicker .3s infinite alternate;
+}
+
+@keyframes flicker{
+    from{
+        transform:translateX(-50%) scale(1);
+    }
+    to{
+        transform:translateX(-50%) scale(1.15);
+    }
+}
+
+/* Final */
+
+#final-letter{
+    margin-top:25px;
+    text-align:left;
+    white-space:pre-wrap;
+    line-height:1.7;
+    color:#333;
+    font-size:1.05rem;
+
+    max-height:300px;
+    overflow-y:auto;
+    padding-right:10px;
+
+    scroll-behavior:smooth;
+}
+
+.cake-img{
+    width:240px;
+    margin-top:20px;
+}
+
+/* Gift boxes */
+
+#gift-boxes-container{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    margin-top:35px;
+}
+
+.gift-box{
+    width:120px;
+    height:120px;
+    border-radius:20px;
+    background:#ffc6df;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:.3s;
+    overflow:hidden;
+    position:relative;
+}
+
+.gift-box:hover{
+    transform:translateY(-8px);
+}
+
+.box-emoji{
+    font-size:3rem;
+}
+
+.gift-photo{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:.5s;
+}
+
+.gift-box.opened .gift-photo{
+    opacity:1;
+}
+
+.gift-box.opened .box-emoji{
+    opacity:0;
+}
+
+/* Final Popup */
+
+#final-popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:.5s;
+}
+
+#final-popup.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.popup-card{
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    max-width:400px;
+}
+
+/* Cursor Sparkles */
+
+.sparkle{
+    position:absolute;
+    width:12px;
+    height:12px;
+    background:white;
+    border-radius:50%;
+    pointer-events:none;
+    animation:sparkle .8s forwards;
+}
+
+@keyframes sparkle{
+    to{
+        opacity:0;
+        transform:scale(3);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="heart-container">
+    <div class="heart" style="left:10%;animation-delay:0s"></div>
+    <div class="heart" style="left:20%;animation-delay:2s"></div>
+    <div class="heart" style="left:30%;animation-delay:4s"></div>
+    <div class="heart" style="left:40%;animation-delay:6s"></div>
+    <div class="heart" style="left:50%;animation-delay:1s"></div>
+    <div class="heart" style="left:60%;animation-delay:3s"></div>
+    <div class="heart" style="left:70%;animation-delay:5s"></div>
+    <div class="heart" style="left:80%;animation-delay:7s"></div>
+</div>
+
+<div id="mascot">
+
+    <img src="https://www.citypng.com/public/uploads/preview/cute-cartoon-cat-transparent-background-735811696674569pfu81cnq1t.png">
+
+    <div id="mascot-message">
+        Hello Nandhana 💖
+    </div>
+
+</div>
+
+<div class="step active" id="welcome">
+
+    <h2>🎉 Happy Birthday Nandhana 🎉</h2>
+
+    <p>
+        I made a tiny surprise game just for you 💖
+    </p>
+
+    <button id="startBtn">
+        Start Surprise ✨
+    </button>
+
+</div>
+
+<div class="step" id="step1">
+
+    <h2>🎈 Pick the Right Balloon 🎈</h2>
+
+    <p>Only one has magic sparkle ✨</p>
+
+    <div class="balloon-container" id="balloonContainer"></div>
+
+</div>
+
+<div class="step" id="step2">
+
+    <h2>🎁 Drag The Gift 🎁</h2>
+
+    <p>Drag the gift into the box</p>
+
+    <div class="gift" draggable="true" id="gift">
+        🎁
+    </div>
+
+    <div class="drag-box" id="dropBox">
+        Drop Here
+    </div>
+
+</div>
+
+<div class="step" id="step3">
+
+    <h2>💌 Write A Birthday Wish 💌</h2>
+
+    <textarea id="wishText"
+    placeholder="Write something sweet..."></textarea>
+
+    <br><br>
+
+    <button id="wishBtn">
+        Continue 💖
+    </button>
+
+</div>
+
+<div class="step" id="step4">
+
+    <h2>🎂 Light The Candles 🎂</h2>
+
+    <p id="candleText">
+        Light all candles ✨
+    </p>
+
+    <div class="candle-container">
+
+        <div class="candle">
+            <div class="flame"></div>
+        </div>
+
+        <div class="candle">
+            <div class="flame"></div>
+        </div>
+
+        <div class="candle">
+            <div class="flame"></div>
+        </div>
+
+        <div class="candle">
+            <div class="flame"></div>
+        </div>
+
+        <div class="candle">
+            <div class="flame"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="step" id="final">
+
+    <h1>🎀 HAPPY BIRTHDAY NANDHANA 🎀</h1>
+
+    <p>
+        Forget the past and look forward to the future ✨
+    </p>
+
+    <img class="cake-img"
+    src="https://static.vecteezy.com/system/resources/previews/036/053/459/non_2x/ai-generated-cartoon-birthday-cake-transparent-background-free-png.png">
+
+    <div id="final-letter"></div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<script>
+
+const steps=document.querySelectorAll('.step');
+
+let currentStep=0;
+
+function showStep(index){
+
+    steps.forEach(step=>{
+        step.classList.remove('active');
+    });
+
+    steps[index].classList.add('active');
+
+    currentStep=index;
+}
+
+document.getElementById('startBtn')
+.addEventListener('click',()=>{
+
+    showStep(1);
+
+});
+
+/* Balloons */
+
+const balloonContainer=
+document.getElementById('balloonContainer');
+
+const colors=[
+    "#ff69b4",
+    "#87cefa",
+    "#ffd700",
+    "#ba55d3",
+    "#7fffd4"
+];
+
+let correctBalloon=
+Math.floor(Math.random()*5);
+
+for(let i=0;i<5;i++){
+
+    const balloon=
+    document.createElement('div');
+
+    balloon.className='balloon';
+
+    balloon.style.background=colors[i];
+
+    balloon.innerHTML='🎈';
+
+    balloon.addEventListener('click',()=>{
+
+        if(i===correctBalloon){
+
+            balloon.classList.add('popped');
+
+            balloon.innerHTML='✨';
+
+            setTimeout(()=>{
+
+                showStep(2);
+
+            },500);
+
+        }else{
+
+            balloon.style.opacity='.3';
+            balloon.style.pointerEvents='none';
+
+        }
+
+    });
+
+    balloonContainer.appendChild(balloon);
+
+}
+
+/* Drag */
+
+const gift=document.getElementById('gift');
+
+const dropBox=document.getElementById('dropBox');
+
+gift.addEventListener('dragstart',e=>{
+
+    e.dataTransfer.setData('text/plain','gift');
+
+});
+
+dropBox.addEventListener('dragover',e=>{
+
+    e.preventDefault();
+
+});
+
+dropBox.addEventListener('drop',e=>{
+
+    e.preventDefault();
+
+    gift.style.display='none';
+
+    dropBox.innerHTML='🎉';
+
+    setTimeout(()=>{
+
+        showStep(3);
+
+    },800);
+
+});
+
+/* Wish */
+
+document.getElementById('wishBtn')
+.addEventListener('click',()=>{
+
+    const text=
+    document.getElementById('wishText')
+    .value.trim();
+
+    if(text.length>0){
+
+        showStep(4);
+
+    }else{
+
+        alert("Write something sweet 💖");
+
+    }
+
+});
+
+/* Candles */
+
+const flames=
+document.querySelectorAll('.flame');
+
+const candleText=
+document.getElementById('candleText');
+
+let lit=0;
+
+flames.forEach(flame=>{
+
+    flame.addEventListener('click',()=>{
+
+        if(!flame.classList.contains('lit')){
+
+            flame.classList.add('lit');
+
+            lit++;
+
+            candleText.innerText=
+            `Light ${5-lit} more candle(s) ✨`;
+
+            if(lit===5){
+
+                candleText.innerText=
+                "All candles are glowing ✨";
+
+                setTimeout(()=>{
+
+                    showStep(5);
+
+                    fireConfetti();
+
+                    typeLetter();
+
+                },1000);
+
+            }
+
+        }
+
+    });
+
+});
+
+/* Confetti */
+
+function fireConfetti(){
+
+    confetti({
+        particleCount:200,
+        spread:120,
+        origin:{y:.6}
+    });
+
+}
+
+/* Letter */
+
+function typeLetter(){
+
+const letter=`Hey Nandhana,
+
+Happy Birthday 🎉✨
+
+I’m genuinely really happy that we started talking.
+
+Some people enter life quietly but somehow become important without even realizing it — and honestly, you feel like one of those people. 💖
+
+You have such a soft and comforting vibe that makes conversations feel easy and special.
+
+I hope this year gives you everything your heart secretly wishes for:
+peace, happiness, cute moments, success, endless laughter, and beautiful memories ✨
+
+Always keep smiling okay?
+Because your smile really has a way of making things feel warmer.
+
+Enjoy your special day to the fullest 💛
+
+With Love 🌞`;
+
+let i=0;
+
+const target=
+document.getElementById('final-letter');
+
+target.innerText='';
+
+const interval=
+setInterval(()=>{
+
+    if(i<letter.length){
+
+        target.innerText += letter.charAt(i);
+
+        target.scrollTop = target.scrollHeight;
+
+        i++;
+
+    }else{
+
+        clearInterval(interval);
+
+    }
+
+},35);
+
+}
+
+/* Sparkles */
+
+document.addEventListener('mousemove',e=>{
+
+    if(currentStep!==5) return;
+
+    const sparkle=
+    document.createElement('div');
+
+    sparkle.className='sparkle';
+
+    sparkle.style.left=e.pageX+'px';
+
+    sparkle.style.top=e.pageY+'px';
+
+    document.body.appendChild(sparkle);
+
+    setTimeout(()=>{
+
+        sparkle.remove();
+
+    },800);
+
+});
+
+</script>
+
+</body>
+  </html>
